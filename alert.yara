@@ -1,4 +1,4 @@
-rul ALERT_test 
+rule ALERT_test 
 {
 	strings:
 		$foo = "barbaz"
