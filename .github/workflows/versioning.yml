@@ -28,7 +28,7 @@ jobs:
         id: calculate-version
         uses: bitshifted/git-auto-semver@v1
         with:
-          main_brach: master
+          main_branch: master
           create_tag: true
           tag_prefix: 'v'
       - name: Use version
