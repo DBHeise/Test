@@ -1,9 +1,10 @@
----
+name: MainBranch
+
 on:
   push:
     branches: [master]
 
-name: MainBranch
+
 
 permissions:
   contents: read
