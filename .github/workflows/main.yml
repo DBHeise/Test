@@ -56,7 +56,5 @@ jobs:
         with:
           context: .
           push: true
-          tags: 
-            - "${{ secrets.DOCKERHUB_USERNAME }}/test:latest"
-            - "${{ secrets.DOCKERHUB_USERNAME }}/test:${{ steps.calculate-version.outputs.version-string }}"
-            
+          tags: "${{ secrets.DOCKERHUB_USERNAME }}/test:${{ steps.calculate-version.outputs.version-string }}"
+
