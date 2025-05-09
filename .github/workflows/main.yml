@@ -34,18 +34,22 @@ jobs:
           tag_prefix: 'v'
       - name: Use version
         run: 'echo "Calculated version: ${{ steps.calculate-version.outputs.version-string }}"'
-
+  release:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    needs: version
+    steps:
       - name: Create a Release
         uses: elgohr/Github-Release-Action@v5
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          title: "${{ steps.calculate-version.outputs.version-string }}"
-          tag: "${{ steps.calculate-version.outputs.version-string }}"
+          title: "${{ needs.vesion.outputs.newtag }}"
+          tag: "${{ needs.vesion.outputs.newtag }}"
   
   dockerhub:
-      needs:
-          - version
+      needs: version,release
       runs-on: ubuntu-latest
       steps:
       - name: Checkout code
@@ -65,6 +69,6 @@ jobs:
         uses: docker/build-push-action@v6
         with:
           context: .
-          tags: "${{ vars.DOCKERHUB_USERNAME }}/test:${{ needs.version.newtag }},${{ vars.DOCKERHUB_USERNAME }}/test:latest"
+          tags: "${{ vars.DOCKERHUB_USERNAME }}/test:${{ needs.version.outputs.newtag }},${{ vars.DOCKERHUB_USERNAME }}/test:latest"
           push: true
 
