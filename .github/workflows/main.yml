@@ -36,6 +36,8 @@ jobs:
         run: 'echo "Calculated version: ${{ steps.calculate-version.outputs.version-string }}"'
 
   release:
+    permissions:
+      contents: write
     needs: version
     runs-on: ubuntu-latest
     steps:
