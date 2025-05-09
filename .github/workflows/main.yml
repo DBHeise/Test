@@ -34,11 +34,14 @@ jobs:
           tag_prefix: 'v'
       - name: Use version
         run: 'echo "Calculated version: ${{ steps.calculate-version.outputs.version-string }}"'
+  
   release:
     runs-on: ubuntu-latest
     permissions:
       contents: write
     needs: version
+    outputs:
+      newtag: ${{ needs.version.outputs.newtag }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -53,9 +56,7 @@ jobs:
           tag: ${{ needs.version.outputs.newtag }}
   
   dockerhub:
-      needs: 
-        - version
-        - release
+      needs: release
       runs-on: ubuntu-latest
       steps:
       - name: Checkout code
@@ -75,6 +76,6 @@ jobs:
         uses: docker/build-push-action@v6
         with:
           context: .
-          tags: "${{ vars.DOCKERHUB_USERNAME }}/test:${{ needs.version.outputs.newtag }},${{ vars.DOCKERHUB_USERNAME }}/test:latest"
+          tags: "${{ vars.DOCKERHUB_USERNAME }}/test:${{ needs.release.outputs.newtag }},${{ vars.DOCKERHUB_USERNAME }}/test:latest"
           push: true
 
