@@ -56,9 +56,9 @@ jobs:
           tag: ${{ needs.version.outputs.newtag }}
   
   dockerhub:
-      needs: release
-      runs-on: ubuntu-latest
-      steps:
+    needs: release
+    runs-on: ubuntu-latest
+    steps:
       - name: Checkout code
         uses: actions/checkout@v4
         with:
