@@ -38,4 +38,5 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          title: ${{ steps.calculate-version.outputs.version-string }}
+          title: "${{ steps.calculate-version.outputs.version-string }}"
+          tag: "${{ steps.calculate-version.outputs.version-string }}"
